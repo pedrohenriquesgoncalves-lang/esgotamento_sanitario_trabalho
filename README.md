@@ -80,3 +80,4 @@ Ministério das Cidades — SINISA, módulo Esgotamento Sanitário, ano de refer
 ## Licenças
 
 Código: MIT (`LICENSE`). Dados derivados, figuras e texto: CC-BY 4.0 (`LICENSE-DATA.md`). Cite a fonte original (Ministério das Cidades/SINISA).
+ 
