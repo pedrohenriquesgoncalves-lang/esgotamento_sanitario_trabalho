@@ -1,0 +1,349 @@
+{
+ "n_universo": 3903,
+ "n_com_dado": 2749,
+ "n_sem_dado": 1154,
+ "pop_universo_mi": 188.255906,
+ "pop_sem_dado_mi": 14.615404,
+ "pop_atendida_mi": 117.280181,
+ "cobertura_universo": 62.298274456260614,
+ "cobertura_com_dado": 67.5419499766247,
+ "pop_sem_rede_com_dado_mi": 56.733091,
+ "mediana_municipal": 59.875,
+ "efetiva_universo": 51.98568378042027,
+ "n_meta90": 462,
+ "pct_meta90": 16.93548387096774,
+ "oficial_br_coleta": 62.3,
+ "oficial_br_trat": 85.16,
+ "validacao_uf": {
+  "n": 27,
+  "erro_medio_abs_pp": 0.0019411680027845764,
+  "erro_max_pp": 0.004463542614452365
+ },
+ "kw_macro": {
+  "H": 689.0295845146156,
+  "p": 8.271674456840598e-148,
+  "eps2": 0.25157164322975234
+ },
+ "spearman_pop_cobertura": {
+  "rho": -0.012839997055028207,
+  "p": 0.5026304613649741
+ },
+ "macro": [
+  {
+   "macrorregiao": "Norte",
+   "n": 209,
+   "n_com_dado": 63,
+   "pop_mi": 11.58,
+   "cobertura": 24.65,
+   "efetiva": 22.81,
+   "coleta_mediana": 25.17,
+   "sem_rede_mi": 6.89,
+   "sem_dado_mi": 1.84,
+   "pct_meta90": 3.23
+  },
+  {
+   "macrorregiao": "Nordeste",
+   "n": 1153,
+   "n_com_dado": 583,
+   "pop_mi": 47.18,
+   "cobertura": 35.9,
+   "efetiva": 30.25,
+   "coleta_mediana": 32.51,
+   "sem_rede_mi": 21.24,
+   "sem_dado_mi": 9.01,
+   "pct_meta90": 1.72
+  },
+  {
+   "macrorregiao": "Centro-Oeste",
+   "n": 348,
+   "n_com_dado": 193,
+   "pop_mi": 15.89,
+   "cobertura": 68.31,
+   "efetiva": 65.25,
+   "coleta_mediana": 51.6,
+   "sem_rede_mi": 3.96,
+   "sem_dado_mi": 1.07,
+   "pct_meta90": 8.29
+  },
+  {
+   "macrorregiao": "Sudeste",
+   "n": 1482,
+   "n_com_dado": 1461,
+   "pop_mi": 86.97,
+   "cobertura": 81.94,
+   "efetiva": 64.46,
+   "coleta_mediana": 77.91,
+   "sem_rede_mi": 15.17,
+   "sem_dado_mi": 0.91,
+   "pct_meta90": 26.42
+  },
+  {
+   "macrorregiao": "Sul",
+   "n": 711,
+   "n_com_dado": 449,
+   "pop_mi": 26.63,
+   "cobertura": 57.72,
+   "efetiva": 54.54,
+   "coleta_mediana": 48.8,
+   "sem_rede_mi": 9.47,
+   "sem_dado_mi": 1.79,
+   "pct_meta90": 11.69
+  }
+ ],
+ "uf_top": [
+  {
+   "uf": "SP",
+   "cobertura": 93.3
+  },
+  {
+   "uf": "DF",
+   "cobertura": 91.8
+  },
+  {
+   "uf": "MG",
+   "cobertura": 78.4
+  }
+ ],
+ "uf_bottom": [
+  {
+   "uf": "AP",
+   "cobertura": 9.3
+  },
+  {
+   "uf": "AC",
+   "cobertura": 11.0
+  },
+  {
+   "uf": "RO",
+   "cobertura": 13.3
+  }
+ ],
+ "uf_acima_90": [
+  "DF",
+  "SP"
+ ],
+ "faixa": [
+  {
+   "faixa_pop": "até 20 mil",
+   "n": 2505,
+   "n_com_dado": 1533,
+   "pop_mi": 22.1,
+   "cobertura": 35.05,
+   "efetiva": 22.6,
+   "coleta_mediana": 59.17,
+   "sem_rede_mi": 6.06,
+   "sem_dado_mi": 8.3,
+   "pct_meta90": 13.96
+  },
+  {
+   "faixa_pop": "20–100 mil",
+   "n": 1079,
+   "n_com_dado": 902,
+   "pop_mi": 44.68,
+   "cobertura": 46.17,
+   "efetiva": 34.55,
+   "coleta_mediana": 54.36,
+   "sem_rede_mi": 18.49,
+   "sem_dado_mi": 5.59,
+   "pct_meta90": 16.61
+  },
+  {
+   "faixa_pop": "100–500 mil",
+   "n": 271,
+   "n_com_dado": 266,
+   "pop_mi": 55.79,
+   "cobertura": 67.81,
+   "efetiva": 56.7,
+   "coleta_mediana": 81.14,
+   "sem_rede_mi": 17.57,
+   "sem_dado_mi": 0.72,
+   "pct_meta90": 30.68
+  },
+  {
+   "faixa_pop": "acima de 500 mil",
+   "n": 48,
+   "n_com_dado": 48,
+   "pop_mi": 65.69,
+   "cobertura": 77.75,
+   "efetiva": 69.72,
+   "coleta_mediana": 85.04,
+   "sem_rede_mi": 14.62,
+   "sem_dado_mi": 0.0,
+   "pct_meta90": 41.67
+  }
+ ],
+ "natureza": [
+  {
+   "natureza_grupo": "Sociedade de economia mista",
+   "n": 978,
+   "pop_mediana": 21874.0,
+   "coleta_mediana": 43.22,
+   "trat_mediana": 100.0,
+   "extrav_mediana": 1.54
+  },
+  {
+   "natureza_grupo": "Empresa privada",
+   "n": 597,
+   "pop_mediana": 18836.0,
+   "coleta_mediana": 76.14,
+   "trat_mediana": 100.0,
+   "extrav_mediana": 0.22
+  },
+  {
+   "natureza_grupo": "Município (adm. direta)",
+   "n": 587,
+   "pop_mediana": 7452.0,
+   "coleta_mediana": 75.56,
+   "trat_mediana": 0.0,
+   "extrav_mediana": 0.91
+  },
+  {
+   "natureza_grupo": "Autarquia",
+   "n": 316,
+   "pop_mediana": 35141.5,
+   "coleta_mediana": 80.11,
+   "trat_mediana": 95.0,
+   "extrav_mediana": 1.81
+  },
+  {
+   "natureza_grupo": "Outras ou múltiplas",
+   "n": 271,
+   "pop_mediana": 14173.0,
+   "coleta_mediana": 47.47,
+   "trat_mediana": 0.0,
+   "extrav_mediana": 2.86
+  }
+ ],
+ "kw_nat_atend_rede_pop_total": {
+  "H": 366.84071702918806,
+  "p": 4.0491073445108156e-78,
+  "eps2": 0.13325035513374514
+ },
+ "kw_nat_trat_sobre_coletado": {
+  "H": 844.6091071915422,
+  "p": 1.667691176801811e-181,
+  "eps2": 0.3087069802392737
+ },
+ "kw_nat_sudeste": {
+  "H": 245.76642153025918,
+  "p": 5.388370160633613e-53
+ },
+ "spearman": {
+  "atend_rede_pop_total": {
+   "atend_rede_pop_total": 1.0,
+   "trat_sobre_coletado": -0.109,
+   "desempenho_financeiro_pct": 0.231,
+   "receita_direta_rs_m3": -0.188,
+   "despesa_total_rs_m3": -0.349,
+   "evasao_receita_pct": -0.143,
+   "energia_kwh_m3": -0.105,
+   "log10_pop": -0.013
+  },
+  "trat_sobre_coletado": {
+   "atend_rede_pop_total": -0.109,
+   "trat_sobre_coletado": 1.0,
+   "desempenho_financeiro_pct": 0.318,
+   "receita_direta_rs_m3": 0.198,
+   "despesa_total_rs_m3": 0.215,
+   "evasao_receita_pct": 0.036,
+   "energia_kwh_m3": 0.256,
+   "log10_pop": 0.127
+  },
+  "desempenho_financeiro_pct": {
+   "atend_rede_pop_total": 0.231,
+   "trat_sobre_coletado": 0.318,
+   "desempenho_financeiro_pct": 1.0,
+   "receita_direta_rs_m3": 0.129,
+   "despesa_total_rs_m3": -0.471,
+   "evasao_receita_pct": -0.038,
+   "energia_kwh_m3": 0.03,
+   "log10_pop": 0.338
+  },
+  "receita_direta_rs_m3": {
+   "atend_rede_pop_total": -0.188,
+   "trat_sobre_coletado": 0.198,
+   "desempenho_financeiro_pct": 0.129,
+   "receita_direta_rs_m3": 1.0,
+   "despesa_total_rs_m3": 0.702,
+   "evasao_receita_pct": -0.011,
+   "energia_kwh_m3": 0.161,
+   "log10_pop": 0.291
+  },
+  "despesa_total_rs_m3": {
+   "atend_rede_pop_total": -0.349,
+   "trat_sobre_coletado": 0.215,
+   "desempenho_financeiro_pct": -0.471,
+   "receita_direta_rs_m3": 0.702,
+   "despesa_total_rs_m3": 1.0,
+   "evasao_receita_pct": 0.003,
+   "energia_kwh_m3": 0.231,
+   "log10_pop": 0.077
+  },
+  "evasao_receita_pct": {
+   "atend_rede_pop_total": -0.143,
+   "trat_sobre_coletado": 0.036,
+   "desempenho_financeiro_pct": -0.038,
+   "receita_direta_rs_m3": -0.011,
+   "despesa_total_rs_m3": 0.003,
+   "evasao_receita_pct": 1.0,
+   "energia_kwh_m3": 0.027,
+   "log10_pop": 0.085
+  },
+  "energia_kwh_m3": {
+   "atend_rede_pop_total": -0.105,
+   "trat_sobre_coletado": 0.256,
+   "desempenho_financeiro_pct": 0.03,
+   "receita_direta_rs_m3": 0.161,
+   "despesa_total_rs_m3": 0.231,
+   "evasao_receita_pct": 0.027,
+   "energia_kwh_m3": 1.0,
+   "log10_pop": 0.115
+  },
+  "log10_pop": {
+   "atend_rede_pop_total": -0.013,
+   "trat_sobre_coletado": 0.127,
+   "desempenho_financeiro_pct": 0.338,
+   "receita_direta_rs_m3": 0.291,
+   "despesa_total_rs_m3": 0.077,
+   "evasao_receita_pct": 0.085,
+   "energia_kwh_m3": 0.115,
+   "log10_pop": 1.0
+  }
+ },
+ "n_par_desemp_coleta": 2719,
+ "quartis": [
+  {
+   "q_desemp": "Q1 (menor)",
+   "n": 685,
+   "coleta": 55.59,
+   "sem_trat": 60.71,
+   "limite_max": 32.14
+  },
+  {
+   "q_desemp": "Q2",
+   "n": 685,
+   "coleta": 44.05,
+   "sem_trat": 6.46,
+   "limite_max": 88.43
+  },
+  {
+   "q_desemp": "Q3",
+   "n": 685,
+   "coleta": 71.68,
+   "sem_trat": 6.43,
+   "limite_max": 121.22
+  },
+  {
+   "q_desemp": "Q4 (maior)",
+   "n": 685,
+   "coleta": 75.15,
+   "sem_trat": 12.15,
+   "limite_max": 1942.42
+  }
+ ],
+ "scatter_n": 2160,
+ "scatter_faixa": [
+  0.03,
+  11.267200000000003
+ ]
+}

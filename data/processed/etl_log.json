@@ -1,0 +1,196 @@
+{
+  "arquivos_brutos_sha256": {
+    "SINISA_ESGOTO_Indicadores_Base_Municipal_2024.xlsx": "8ff86088f3fccda8adddbf5e7df1fa5be8246dfad23f9b6fe3a52bdbd3445b7b",
+    "SINISA_ESGOTO_Informações_Gestão_Técnica_de_Esgoto_Base_Municipal_2024.xlsx": "f7a58ac73ebccae2a876aae837a5020dc2e36e99ace11d462e69b03bbfa5c8ff"
+  },
+  "linhas_lidas": {
+    "indicadores": 2749,
+    "gestao_tecnica": 3903
+  },
+  "nao_calculado": {
+    "IES0001": {
+      "condicoes_nao_atendidas": 21
+    },
+    "IES0002": {
+      "condicoes_nao_atendidas": 25
+    },
+    "IES0003": {
+      "divisao_por_zero": 36,
+      "condicoes_nao_atendidas": 15
+    },
+    "IES0004": {
+      "divisao_por_zero": 1,
+      "campos_obrigatorios_vazios": 969,
+      "condicoes_nao_atendidas": 213
+    },
+    "IES0005": {
+      "divisao_por_zero": 13,
+      "condicoes_nao_atendidas": 409
+    },
+    "IES0006": {
+      "divisao_por_zero": 150,
+      "campos_obrigatorios_vazios": 969,
+      "condicoes_nao_atendidas": 72
+    },
+    "IES0007": {
+      "divisao_por_zero": 22,
+      "campos_obrigatorios_vazios": 959,
+      "condicoes_nao_atendidas": 184
+    },
+    "IES0008": {
+      "divisao_por_zero": 37,
+      "condicoes_nao_atendidas": 320
+    },
+    "IES0009": {
+      "divisao_por_zero": 162,
+      "campos_obrigatorios_vazios": 959,
+      "condicoes_nao_atendidas": 55
+    },
+    "IES1001": {
+      "divisao_por_zero": 2,
+      "condicoes_nao_atendidas": 14
+    },
+    "IES1002": {
+      "divisao_por_zero": 2,
+      "condicoes_nao_atendidas": 14
+    },
+    "IES1003": {
+      "divisao_por_zero": 3,
+      "campos_obrigatorios_vazios": 1000,
+      "condicoes_nao_atendidas": 5
+    },
+    "IES1004": {
+      "divisao_por_zero": 130,
+      "campos_obrigatorios_vazios": 1021,
+      "condicoes_nao_atendidas": 5
+    },
+    "IES2002": {
+      "divisao_por_zero": 3,
+      "condicoes_nao_atendidas": 17
+    },
+    "IES2003": {
+      "divisao_por_zero": 3,
+      "condicoes_nao_atendidas": 17
+    },
+    "IES2004": {
+      "divisao_por_zero": 7,
+      "condicoes_nao_atendidas": 14
+    },
+    "IES2005": {
+      "divisao_por_zero": 7
+    },
+    "IES3001": {
+      "divisao_por_zero": 6,
+      "campos_obrigatorios_vazios": 65
+    },
+    "IES3002": {
+      "divisao_por_zero": 379,
+      "campos_obrigatorios_vazios": 65
+    },
+    "IES3003": {
+      "divisao_por_zero": 163,
+      "campos_obrigatorios_vazios": 66
+    },
+    "IFE0001": {
+      "divisao_por_zero": 116
+    },
+    "IFE0002": {
+      "divisao_por_zero": 68,
+      "campos_obrigatorios_vazios": 217
+    },
+    "IFE1001": {
+      "divisao_por_zero": 523,
+      "condicoes_nao_atendidas": 5
+    },
+    "IFE1002": {
+      "divisao_por_zero": 523,
+      "campos_obrigatorios_vazios": 1
+    },
+    "IFE1003": {
+      "divisao_por_zero": 518,
+      "campos_obrigatorios_vazios": 1
+    },
+    "IFE1004": {
+      "divisao_por_zero": 518,
+      "campos_obrigatorios_vazios": 1
+    },
+    "IFE1005": {
+      "divisao_por_zero": 518,
+      "campos_obrigatorios_vazios": 1
+    },
+    "IFE2001": {
+      "divisao_por_zero": 8,
+      "campos_obrigatorios_vazios": 1
+    },
+    "IFE2002": {
+      "divisao_por_zero": 523
+    },
+    "IFE2003": {
+      "divisao_por_zero": 523
+    },
+    "IFE2004": {
+      "divisao_por_zero": 523
+    },
+    "IFE2005": {
+      "divisao_por_zero": 30,
+      "condicoes_nao_atendidas": 723
+    },
+    "IFE2006": {
+      "divisao_por_zero": 150,
+      "campos_obrigatorios_vazios": 217
+    },
+    "IFE2007": {
+      "divisao_por_zero": 98
+    },
+    "IFE2008": {
+      "divisao_por_zero": 8
+    },
+    "IFE2009": {
+      "divisao_por_zero": 8
+    },
+    "IFE2010": {
+      "divisao_por_zero": 8
+    },
+    "IFE2011": {
+      "divisao_por_zero": 530,
+      "campos_obrigatorios_vazios": 1
+    },
+    "IFE2012": {
+      "divisao_por_zero": 530,
+      "campos_obrigatorios_vazios": 1
+    },
+    "IFE2013": {
+      "divisao_por_zero": 530,
+      "campos_obrigatorios_vazios": 1
+    },
+    "IFE2014": {
+      "divisao_por_zero": 530,
+      "campos_obrigatorios_vazios": 1
+    },
+    "IFE2016": {
+      "divisao_por_zero": 8,
+      "campos_obrigatorios_vazios": 1
+    }
+  },
+  "divergencia_natureza_entre_bases": 0,
+  "universo": {
+    "municipios": 3903,
+    "com_dado": 2749,
+    "sem_dado": 1154,
+    "pop_sem_dado": 14615404,
+    "pop_universo": 188255906
+  },
+  "atendimento_fora_0_100": {
+    "IES0001": 0,
+    "IES0002": 0,
+    "IES0003": 0,
+    "IES0004": 0,
+    "IES0005": 0,
+    "IES0006": 0,
+    "IES0007": 0,
+    "IES0008": 0,
+    "IES0009": 0
+  },
+  "colunas_finais": 71,
+  "tratado_acima_100": 5
+}

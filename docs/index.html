@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desigualdades no esgotamento sanitário brasileiro: cobertura, tratamento e desempenho dos prestadores (SINISA 2024)</title>
+<meta name="description" content="Análise da base municipal do SINISA Esgoto 2024: cobertura de coleta, tratamento e desempenho financeiro dos prestadores em 3.903 municípios brasileiros.">
+<meta name="author" content="Pedro Henrique dos Santos Gonçalves">
+<meta name="keywords" content="esgotamento sanitário, SINISA, desigualdade regional, engenharia de dados, ciência aberta">
+<meta property="og:title" content="Desigualdades no esgotamento sanitário brasileiro (SINISA 2024)">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12202B; --ink-2:#44545F; --mist:#F3F6F8; --paper:#fff; --line:#D6DEE4;
+  --blue:#0072B2; --vermilion:#B34700; --signal:#D55E00; --sun:#E69F00; --code:#0F1E27;
+  --serif:"Newsreader","Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:1.25rem}
+body{margin:0;background:var(--mist);color:var(--ink);font-family:var(--serif);font-size:1.125rem;line-height:1.72;-webkit-text-size-adjust:100%}
+a{color:var(--blue);text-underline-offset:.18em}
+a:focus-visible,summary:focus-visible,button:focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:2px}
+.skip{position:absolute;left:-999px;top:0;background:var(--ink);color:#fff;padding:.6rem 1rem;z-index:9}
+.skip:focus{left:0}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* cabeçalho */
+.topo{background:var(--paper);border-bottom:1px solid var(--line)}
+.topo-in{max-width:1120px;margin:0 auto;padding:2.2rem 1.25rem 2rem}
+.contexto{font:500 .95rem/1.5 var(--sans);color:var(--ink-2);margin:0 0 1rem}
+h1{font:700 clamp(1.75rem,4.2vw,2.8rem)/1.12 var(--sans);letter-spacing:-.02em;margin:0 0 1.1rem;max-width:26em;text-wrap:balance}
+.autores{font:600 1.02rem/1.5 var(--sans);margin:0}
+.afil{font:400 .95rem/1.5 var(--sans);color:var(--ink-2);margin:.15rem 0 1.1rem}
+.acoes{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:0 0 1.9rem}
+.btn{font:600 .92rem/1 var(--sans);background:var(--ink);color:#fff;text-decoration:none;padding:.7rem 1rem;border-radius:6px}
+.btn:hover{background:#1d3342}
+.pill{font:500 .8rem/1 var(--sans);border:1px solid var(--line);background:var(--mist);color:var(--ink-2);padding:.45rem .65rem;border-radius:99px}
+
+/* régua de população (elemento central do cabeçalho) */
+.regua{margin:0}
+.regua-t{font:600 .95rem/1.45 var(--sans);margin:0 0 .9rem;max-width:44em}
+.barra{position:relative;display:flex;height:46px;border-radius:4px;overflow:visible}
+.barra span{display:block;height:100%}
+.barra .s1{background:var(--blue);width:62.3%;border-radius:4px 0 0 4px}
+.barra .s2{background:var(--signal);width:29.9%}
+.barra .s3{background:repeating-linear-gradient(135deg,#aeb9c1 0 5px,#e3e8ec 5px 10px);width:7.8%;border-radius:0 4px 4px 0}
+.meta{position:absolute;left:90%;top:-10px;bottom:-10px;width:0;border-left:2px dashed var(--ink)}
+.meta b{position:absolute;right:6px;top:-24px;white-space:nowrap;font:600 .78rem/1 var(--sans)}
+.leg{display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;margin:1.5rem 0 0;padding:0;list-style:none;font:400 .9rem/1.4 var(--sans)}
+.leg i{display:inline-block;width:.8rem;height:.8rem;border-radius:2px;margin-right:.45rem;vertical-align:-1px}
+.leg strong{font-weight:600}
+
+/* layout */
+.pagina{max-width:1120px;margin:0 auto;padding:2rem 1.25rem 4rem;display:grid;grid-template-columns:minmax(0,1fr);gap:2rem}
+@media (min-width:1000px){.pagina{grid-template-columns:210px minmax(0,1fr);gap:3rem}}
+.toc{font:500 .9rem/1.4 var(--sans)}
+.toc details{border:1px solid var(--line);background:var(--paper);border-radius:6px;padding:.7rem .9rem}
+.toc summary{cursor:pointer;font-weight:600}
+.toc ol{list-style:none;margin:.6rem 0 0;padding:0}
+.toc a{display:block;padding:.28rem 0 .28rem .75rem;border-left:2px solid var(--line);color:var(--ink-2);text-decoration:none}
+.toc a:hover{color:var(--ink)}
+.toc a.on{border-left-color:var(--blue);color:var(--ink);font-weight:600}
+.toc .sub a{padding-left:1.5rem;font-size:.85rem}
+@media (min-width:1000px){.toc{position:sticky;top:1.25rem;align-self:start}.toc details{border:0;background:none;padding:0}.toc summary{display:none}.toc details:not([open])>ol{display:block}}
+main{min-width:0;max-width:820px}
+main>section{margin:0 0 3rem}
+h2{font:700 1.65rem/1.2 var(--sans);letter-spacing:-.015em;margin:0 0 1rem}
+h3{font:600 1.2rem/1.3 var(--sans);margin:2rem 0 .6rem}
+p{margin:0 0 1.1rem}
+ul,ol.l{margin:0 0 1.1rem;padding-left:1.3rem}
+li{margin:.25rem 0}
+.rq{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:4px;padding:.9rem 1.1rem;margin:.7rem 0}
+.rq b{font-family:var(--sans)}
+.resumo{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:1.4rem 1.5rem;margin-bottom:3rem}
+.resumo h2{font-size:1.25rem}
+.resumo p{font-size:1.04rem;line-height:1.65}
+.resumo .kw{font:400 .92rem/1.5 var(--sans);color:var(--ink-2);margin:0}
+.resumo hr{border:0;border-top:1px solid var(--line);margin:1.3rem 0}
+
+/* tabelas, figuras, código */
+.tab{overflow-x:auto;margin:1.2rem 0 1.6rem;background:var(--paper);border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font:400 .9rem/1.4 var(--sans);min-width:560px}
+caption{caption-side:top;text-align:left;font:600 .9rem/1.4 var(--sans);padding:.8rem .9rem .5rem}
+th,td{padding:.5rem .8rem;text-align:right;border-top:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal}
+thead th{font-weight:600;color:var(--ink-2);border-top:0;border-bottom:1px solid var(--ink);vertical-align:bottom;white-space:normal}
+tbody tr:last-child td{font-weight:600}
+.fig{margin:1.6rem 0 2rem;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:.8rem}
+.fig img{display:block;width:100%;height:auto}
+.fig iframe{display:block;width:100%;border:0}
+figcaption{font:400 .88rem/1.5 var(--sans);color:var(--ink-2);padding:.7rem .3rem .1rem}
+figcaption b{color:var(--ink);font-weight:600}
+pre{background:var(--code);color:#E6EDF2;border-radius:6px;padding:1rem 1.1rem;overflow-x:auto;font:400 .82rem/1.6 var(--mono);margin:1rem 0 1.4rem}
+code{font-family:var(--mono);font-size:.86em;background:#E7EDF1;padding:.08em .35em;border-radius:3px}
+pre code{background:none;padding:0;font-size:inherit}
+.nota{font:400 .92rem/1.55 var(--sans);color:var(--ink-2);border-left:3px solid var(--sun);padding:.1rem 0 .1rem .9rem;margin:1.2rem 0}
+.refs{list-style:none;padding:0;font-size:1rem;line-height:1.6}
+.refs li{padding-left:1.8rem;text-indent:-1.8rem;margin:.7rem 0;overflow-wrap:anywhere}
+footer{max-width:1120px;margin:0 auto;padding:1.5rem 1.25rem 3rem;border-top:1px solid var(--line);font:400 .88rem/1.6 var(--sans);color:var(--ink-2)}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="topo">
+  <div class="topo-in">
+    <p class="contexto">Artigo do projeto final · Linguagem de Programação (Análise e Visualização de Dados com Python) · Bacharelado em Sistemas de Informação, 6º período</p>
+    <h1>Desigualdades no esgotamento sanitário brasileiro: cobertura, tratamento e desempenho dos prestadores nos municípios (SINISA, ano-base 2024)</h1>
+    <p class="autores">Pedro Henrique dos Santos Gonçalves · Larissa Vilella dos Santos</p>
+    <p class="afil">Unilasalle (Rio de Janeiro) · Bacharelado em Sistemas de Informação · 2º semestre de 2026</p>
+    <div class="acoes">
+      <a class="btn" href="https://github.com/SEU-USUARIO/sinisa-esgoto-2024">Ver repositório no GitHub</a>
+      <span class="pill">Código: MIT</span><span class="pill">Dados e texto: CC-BY 4.0</span><span class="pill">Python 3.12</span><span class="pill">FAIR</span>
+    </div>
+    <figure class="regua" aria-labelledby="regua-t">
+      <p class="regua-t" id="regua-t">Os 188,3 milhões de habitantes dos 3.903 municípios da base: quem tem rede coletora de esgoto, quem não tem e quem não tem dado informado.</p>
+      <div class="barra" role="img" aria-label="Barra horizontal: 62,3% da população com rede coletora, 29,9% sem rede, 7,8% em municípios sem dado. Uma linha tracejada marca a referência de 90%.">
+        <span class="s1"></span><span class="s2"></span><span class="s3"></span>
+        <div class="meta"><b>referência de 90% (2033)</b></div>
+      </div>
+      <ul class="leg">
+        <li><i style="background:var(--blue)"></i><strong>62,3%</strong> com rede coletora (117,3 mi)</li>
+        <li><i style="background:var(--signal)"></i><strong>29,9%</strong> sem rede, em municípios com dado</li>
+        <li><i style="background:repeating-linear-gradient(135deg,#aeb9c1 0 3px,#e3e8ec 3px 6px)"></i><strong>7,8%</strong> em municípios sem dado (14,6 mi)</li>
+      </ul>
+    </figure>
+  </div>
+</header>
+
+<div class="pagina">
+<nav class="toc" aria-label="Sumário">
+  <details open>
+    <summary>Sumário</summary>
+    <ol>
+      <li><a href="#resumo">Resumo e abstract</a></li>
+      <li><a href="#introducao">1. Introdução</a></li>
+      <li><a href="#metodologia">2. Metodologia e pipeline</a></li>
+      <li><a href="#resultados">3. Resultados e discussão</a></li>
+      <li class="sub"><a href="#rq1">3.1 RQ1 · Desigualdade</a></li>
+      <li class="sub"><a href="#rq2">3.2 RQ2 · Natureza jurídica</a></li>
+      <li class="sub"><a href="#rq3">3.3 RQ3 · Desempenho financeiro</a></li>
+      <li><a href="#conclusao">4. Conclusão</a></li>
+      <li><a href="#fair">5. Dados e declaração FAIR</a></li>
+      <li><a href="#referencias">6. Referências</a></li>
+    </ol>
+  </details>
+</nav>
+
+<main id="conteudo">
+
+<section class="resumo" id="resumo">
+  <h2>Resumo</h2>
+  <p>O esgotamento sanitário concentra um dos maiores déficits do saneamento brasileiro, e o Marco Legal (Lei nº 14.026/2020) fixa a meta de atender 90% da população com coleta e tratamento até 2033. Este estudo analisa a base municipal do módulo Esgoto do SINISA (ano de referência 2024), que lista 3.903 municípios e 188,3 milhões de habitantes, dos quais 2.749 têm indicadores informados pelos prestadores. Um pipeline determinístico em Python (pandas) padroniza as planilhas originais, trata valores “não calculados”, preserva a rastreabilidade e reproduz o indicador oficial das 27 UFs com erro médio de 0,002 ponto percentual. Os resultados mostram que 62,3% da população tem rede coletora, com forte desigualdade regional (24,7% no Norte contra 81,9% no Sudeste), e que apenas 462 municípios com dado (16,9%) atingem 90% de coleta. A natureza jurídica do prestador associa-se a grandes diferenças de cobertura e, sobretudo, de tratamento (ε² = 0,13 e 0,31), e o desempenho financeiro correlaciona-se positivamente com o tratamento (ρ = 0,32), mas não de forma simples com a cobertura. A falta de dados, a baixa cobertura no Norte e no Nordeste e a lacuna de tratamento aparecem como frentes distintas de política pública. As associações são descritivas, não causais.</p>
+  <p class="kw"><strong>Palavras-chave:</strong> esgotamento sanitário; SINISA; desigualdade regional; engenharia de dados; ciência aberta.</p>
+  <hr>
+  <h2 lang="en">Abstract</h2>
+  <p lang="en">Sewage collection and treatment remain a major gap in Brazilian sanitation, and the national sanitation framework (Law 14,026/2020) sets a 90% target for collection and treatment by 2033. This study analyzes the municipal base of the SINISA Sewage module (reference year 2024), which lists 3,903 municipalities and 188.3 million inhabitants, 2,749 of which have indicators reported by service providers. A deterministic Python (pandas) pipeline standardizes the original spreadsheets, handles “not calculated” values, preserves traceability and reproduces the official indicator for all 27 states with a mean absolute error of 0.002 percentage points. Results show that 62.3% of the population is connected to a sewer network, with strong regional inequality (24.7% in the North versus 81.9% in the Southeast), and that only 462 municipalities with data (16.9%) reach 90% collection. Provider legal nature is associated with large differences in coverage and, above all, in treatment (ε² = 0.13 and 0.31), and financial performance correlates positively with treatment (ρ = 0.32) but not in a simple way with coverage. Missing data, low coverage in the North and Northeast, and the treatment gap emerge as distinct policy fronts. Associations are descriptive, not causal.</p>
+  <p class="kw" lang="en"><strong>Keywords:</strong> sewage; SINISA; regional inequality; data engineering; open science.</p>
+</section>
+
+<section id="introducao">
+  <h2>1. Introdução</h2>
+  <p>Coletar e tratar o esgoto evita a contaminação de rios, solo e água de consumo, e por isso o serviço é central para a saúde pública e para o meio ambiente. No Brasil, o Novo Marco Legal do Saneamento (BRASIL, 2020) estabeleceu como meta que 90% da população tenha coleta e tratamento de esgoto até 31 de dezembro de 2033. Acompanhar essa meta exige dados confiáveis, e desde 2024 a fonte oficial é o Sistema Nacional de Informações em Saneamento Básico (SINISA), instituído pelo art. 53 da Lei nº 11.445/2007 (BRASIL, 2007) e operado pelo Ministério das Cidades.</p>
+  <p>Os dados do SINISA são declarados pelos prestadores e consolidados por município, o que levanta três questões práticas: quanto da população está de fato atendida, quem é atendido por qual tipo de prestador e o que a situação financeira do serviço diz sobre sua capacidade de atender. Este trabalho responde a três perguntas de pesquisa:</p>
+  <div class="rq"><b>RQ1.</b> Quão desigual é o atendimento com coleta e tratamento de esgoto entre macrorregiões, UFs e portes de município?</div>
+  <div class="rq"><b>RQ2.</b> A natureza jurídica do prestador está associada a diferenças de cobertura e de tratamento, inclusive dentro de uma mesma macrorregião?</div>
+  <div class="rq"><b>RQ3.</b> O desempenho financeiro do serviço se relaciona com a cobertura e com o tratamento?</div>
+  <p>Além dos resultados, o trabalho entrega um pipeline reprodutível e aberto (seção 5), de modo que qualquer pessoa possa refazer as análises a partir das planilhas originais.</p>
+</section>
+
+<section id="metodologia">
+  <h2>2. Metodologia e pipeline de dados</h2>
+
+  <h3>2.1 Fonte e granularidade</h3>
+  <p>Usamos o módulo Esgotamento Sanitário do SINISA, ano de referência 2024, publicado em 18/12/2025 (BRASIL, 2025a). Foram lidas três planilhas: <em>Indicadores</em> e <em>Gestão Técnica de Esgoto</em>, ambas da base municipal, e <em>Indicadores UF/MR/BR</em>, usada só para validação. Na base municipal, cada linha é um município e, quando há mais de um prestador, o próprio SINISA aplica regras de consolidação. A base técnica lista <strong>3.903 municípios</strong> (188,3 milhões de habitantes); a de indicadores traz os <strong>2.749</strong> que têm dados de esgoto informados. Os outros 1.154 (14,6 milhões de habitantes) aparecem com população, mas sem informações do prestador.</p>
+
+  <h3>2.2 Tratamento dos dados</h3>
+  <p>As planilhas são arquivos <code>.xlsx</code>, então não há problema de codificação ou separador, mas o cabeçalho ocupa três linhas (nome, unidade e código da variável) e os valores ausentes vêm como texto, por exemplo “Não calculado (divisão por zero)”. O módulo <code>src/etl.py</code> faz o seguinte, sem nunca alterar os arquivos brutos:</p>
+  <ul>
+    <li><strong>Cabeçalho:</strong> localiza a linha com <code>cod_IBGE</code>, usa os códigos como nomes de coluna e guarda rótulos e unidades para gerar o dicionário de dados.</li>
+    <li><strong>Tipos:</strong> converte indicadores para <code>float64</code>; o código IBGE vira texto de 7 dígitos; <code>Capital</code> vira booleano; a natureza jurídica é agrupada em cinco classes.</li>
+    <li><strong>Ausentes:</strong> cada texto “Não calculado” vira <code>NaN</code> e é contado por motivo no arquivo <code>etl_log.json</code> (16.562 valores em 42 indicadores). Nada é imputado.</li>
+    <li><strong>Junção:</strong> a base técnica é o universo; os indicadores entram por <code>cod_IBGE</code> com validação 1:1 e a coluna <code>tem_dado_esgoto</code> separa os 2.749 dos 1.154 municípios sem dado.</li>
+    <li><strong>Valores extremos:</strong> nenhum percentual de atendimento ficou fora de 0 a 100; o esgoto tratado acima de 100% do coletado ocorre em 5 municípios e é apenas sinalizado. Os extremos financeiros (por exemplo, milhões de R$/m³) são mantidos e tratados com estatística robusta.</li>
+  </ul>
+<pre><code>def read_sinisa(path, sheet=0):               # trecho simplificado de src/etl.py
+    raw = pd.read_excel(path, sheet_name=sheet, header=None, dtype=object)
+    code_row = raw.index[raw[0].astype(str).str.strip() == "cod_IBGE"][0]
+    df = raw.iloc[code_row + 1:].copy()
+    df.columns = raw.iloc[code_row].astype(str).str.strip().tolist()
+    return df[pd.to_numeric(df["cod_IBGE"], errors="coerce").notna()]
+
+def to_numeric_logged(df, cols, stats):
+    for c in cols:
+        num = pd.to_numeric(df[c], errors="coerce")        # "Não calculado (...)" -> NaN
+        bad = df[c][num.isna() &amp; df[c].notna()].astype(str)
+        for text, key in REASONS.items():                   # conta o motivo de cada NaN
+            n = int(bad.str.contains(text, regex=False).sum())
+            if n: stats.setdefault("nao_calculado", {}).setdefault(c, {})[key] = n
+        df[c] = num.astype("float64")
+    return df</code></pre>
+
+  <h3>2.3 Métricas derivadas</h3>
+  <p>Seguindo a convenção do SINISA, a <strong>população atendida com rede</strong> é a soma das populações urbana e rural atendidas, e municípios sem dado entram no denominador como não atendidos. A <strong>cobertura efetiva de tratamento</strong> é uma estimativa: atendimento com rede multiplicado pela razão entre esgoto tratado e coletado, limitada a 100%. Também criamos a faixa de porte (até 20 mil, 20–100 mil, 100–500 mil e acima de 500 mil habitantes) e um indicador de municípios com pelo menos 90% de coleta.</p>
+<pre><code>df["pop_atendida_rede"] = (df["GTE0001"].fillna(0) + df["GTE0002"].fillna(0)).where(df["tem_dado_esgoto"])
+df["pop_sem_rede"] = (df["DFE0001"] - df["pop_atendida_rede"]).clip(lower=0)
+df["cobertura_efetiva_trat"] = df["IES0001"] * df["IES2004"].clip(upper=100) / 100
+df["faixa_pop"] = pd.cut(df["DFE0001"], [0, 20_000, 100_000, 500_000, np.inf],
+                         labels=["até 20 mil", "20–100 mil", "100–500 mil", "acima de 500 mil"])</code></pre>
+
+  <h3>2.4 Estatística e validação</h3>
+  <p>Como os indicadores são assimétricos e têm valores extremos, usamos medianas, médias ponderadas pela população, o teste de Kruskal-Wallis com tamanho de efeito ε² (VIRTANEN et al., 2020; KRUSKAL; WALLIS, 1952) e a correlação de Spearman. Para validar o ETL, recalculamos o atendimento por UF a partir da base municipal e comparamos com a planilha oficial: o resultado do Brasil coincide (62,3%) e o erro médio absoluto nas 27 UFs é de 0,002 ponto percentual. Quatro testes automatizados (<code>pytest</code>) verificam essa e outras propriedades.</p>
+  <div class="tab">
+    <table>
+      <caption>Tabela 1. Registro de qualidade do pipeline (<code>data/processed/etl_log.json</code>)</caption>
+      <thead><tr><th>Verificação</th><th>Resultado</th></tr></thead>
+      <tbody>
+        <tr><td>Linhas lidas (indicadores / base técnica)</td><td>2.749 / 3.903</td></tr>
+        <tr><td>Municípios sem dado de esgoto (população)</td><td>1.154 (14,6 milhões)</td></tr>
+        <tr><td>Valores “não calculado” convertidos em NaN</td><td>16.562 em 42 indicadores</td></tr>
+        <tr><td>Atendimento fora de 0–100%</td><td>0</td></tr>
+        <tr><td>Esgoto tratado acima de 100% do coletado (sinalizados)</td><td>5 municípios</td></tr>
+        <tr><td>Divergência de cadastro entre as duas bases</td><td>0</td></tr>
+        <tr><td>Erro médio absoluto vs. indicador oficial (27 UFs)</td><td>0,002 p.p.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="resultados">
+  <h2>3. Resultados e discussão</h2>
+  <p>No universo de 3.903 municípios, <strong>117,3 milhões</strong> de pessoas (62,3%) têm rede coletora, e cerca de 71 milhões estão sem rede ou em municípios sem dado. Considerando só os 2.749 municípios com dado, o atendimento ponderado sobe para 67,5%, e a mediana municipal é 59,9%. A estimativa de coleta e tratamento para o país é de 52,0%, bem abaixo da meta de 90%. O indicador oficial de esgoto tratado sobre coletado no Brasil é 85,2% (BRASIL, 2025b), o que mostra que a cobertura de rede, e não só o tratamento do volume coletado, é o principal gargalo.</p>
+
+  <h3 id="rq1">3.1 RQ1 · Desigualdade entre regiões, UFs e portes</h3>
+  <p>A desigualdade regional é a característica mais marcante dos dados (Tabela 2). O Sudeste atende 81,9% da população e o Norte, 24,7%; o Nordeste, onde vivem 47 milhões de pessoas, chega a 35,9%. A diferença entre macrorregiões é estatisticamente muito forte e de tamanho relevante (Kruskal-Wallis, H = 689, p &lt; 0,001, ε² = 0,25). No Sudeste, a coleta (81,9%) supera em 17,5 pontos a estimativa de coleta e tratamento (64,5%), o que indica que ali o problema se desloca da rede para o tratamento.</p>
+  <div class="tab">
+    <table>
+      <caption>Tabela 2. Atendimento por macrorregião (referência: população dos 3.903 municípios)</caption>
+      <thead><tr><th>Macrorregião</th><th>Municípios (com dado / total)</th><th>População (mi)</th><th>Rede coletora (%)</th><th>Coleta + trat. estimada (%)</th><th>Mediana municipal (%)</th><th>Municípios ≥ 90% (%)</th></tr></thead>
+      <tbody>
+        <tr><td>Norte</td><td>63 / 209</td><td>11,6</td><td>24,7</td><td>22,8</td><td>25,2</td><td>3,2</td></tr>
+        <tr><td>Nordeste</td><td>583 / 1.153</td><td>47,2</td><td>35,9</td><td>30,3</td><td>32,5</td><td>1,7</td></tr>
+        <tr><td>Centro-Oeste</td><td>193 / 348</td><td>15,9</td><td>68,3</td><td>65,3</td><td>51,6</td><td>8,3</td></tr>
+        <tr><td>Sudeste</td><td>1.461 / 1.482</td><td>87,0</td><td>81,9</td><td>64,5</td><td>77,9</td><td>26,4</td></tr>
+        <tr><td>Sul</td><td>449 / 711</td><td>26,6</td><td>57,7</td><td>54,5</td><td>48,8</td><td>11,7</td></tr>
+        <tr><td>Brasil</td><td>2.749 / 3.903</td><td>188,3</td><td>62,3</td><td>52,0</td><td>59,9</td><td>16,9</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure class="fig">
+    <img src="assets/fig1_boxplot_macrorregiao.png" alt="Boxplots do atendimento com rede coletora por município em cada macrorregião, com os pontos individuais; o Sudeste tem mediana mais alta e o Norte e o Nordeste, medianas baixas." width="1600" height="920" loading="lazy">
+    <figcaption><b>Figura 1.</b> Distribuição do atendimento com rede por município. A linha tracejada marca 90%. Apenas municípios com dado (n = 2.728 com indicador calculado).</figcaption>
+  </figure>
+  <p>Entre as UFs, apenas São Paulo (93,3%) e o Distrito Federal (91,8%) superam 90%; Minas Gerais é a terceira (78,4%). No outro extremo estão Amapá (9,3%), Acre (11,0%) e Rondônia (13,3%). A Figura 2 permite explorar todas as UFs.</p>
+  <figure class="fig">
+    <iframe src="assets/fig2_uf_interativo.html" title="Gráfico interativo: atendimento por UF" height="800" loading="lazy"></iframe>
+    <figcaption><b>Figura 2 (interativa).</b> Atendimento com rede e estimativa de coleta com tratamento por UF. Passe o mouse para ver municípios e população. <a href="assets/fig2_uf_interativo.html">Abrir em tela cheia</a>.</figcaption>
+  </figure>
+  <p>O porte também importa, mas de forma não linear (Tabela 3). A correlação de Spearman entre população (em log) e cobertura municipal é praticamente nula (ρ = −0,01), porque municípios de até 20 mil habitantes têm mediana (59,2%) ligeiramente acima dos de 20 a 100 mil (54,4%), enquanto os de mais de 100 mil têm medianas de 81% a 85%. A baixa cobertura total dos municípios pequenos (35,1%) vem, em grande parte, da falta de dados: 8,3 milhões dos 22,1 milhões de habitantes dessa faixa moram em municípios sem informação, e nas faixas acima de 100 mil quase não há municípios sem dado. Ou seja, <strong>a lacuna de informação se concentra justamente onde a cobertura é mais incerta</strong>.</p>
+  <div class="tab">
+    <table>
+      <caption>Tabela 3. Atendimento por faixa de população do município</caption>
+      <thead><tr><th>Faixa de população</th><th>Municípios (com dado / total)</th><th>População (mi)</th><th>Rede coletora (%)</th><th>Coleta + trat. estimada (%)</th><th>Pop. em municípios sem dado (mi)</th><th>Municípios ≥ 90% (%)</th></tr></thead>
+      <tbody>
+        <tr><td>Até 20 mil</td><td>1.533 / 2.505</td><td>22,1</td><td>35,1</td><td>22,6</td><td>8,3</td><td>14,0</td></tr>
+        <tr><td>20–100 mil</td><td>902 / 1.079</td><td>44,7</td><td>46,2</td><td>34,6</td><td>5,6</td><td>16,6</td></tr>
+        <tr><td>100–500 mil</td><td>266 / 271</td><td>55,8</td><td>67,8</td><td>56,7</td><td>0,7</td><td>30,7</td></tr>
+        <tr><td>Acima de 500 mil</td><td>48 / 48</td><td>65,7</td><td>77,8</td><td>69,7</td><td>0,0</td><td>41,7</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure class="fig">
+    <img src="assets/fig3_sem_rede_e_porte.png" alt="À esquerda, barras empilhadas da população sem rede e sem dado por macrorregião, com o Nordeste no topo. À direita, a porcentagem de municípios com pelo menos 90% de coleta cresce com o porte, de 14% a 42%." width="2100" height="840" loading="lazy">
+    <figcaption><b>Figura 3.</b> À esquerda, população sem rede (cor) e em municípios sem dado (hachura), por macrorregião; os valores somam municípios individualmente, sem compensar o excesso de cobertura declarado em 7 municípios. À direita, municípios com pelo menos 90% de coleta, por porte.</figcaption>
+  </figure>
+
+  <h3 id="rq2">3.2 RQ2 · Natureza jurídica do prestador</h3>
+  <p>A natureza jurídica está fortemente associada à cobertura (Kruskal-Wallis, H = 367, ε² = 0,13) e, mais ainda, ao tratamento (H = 845, ε² = 0,31). Pela Tabela 4, as sociedades de economia mista, que atendem muitos municípios pequenos do Norte e do Nordeste, têm a menor cobertura mediana entre os grupos principais (43,2%), mas tratam o que coletam (mediana de 100%). Os serviços municipais de administração direta têm cobertura mediana alta (75,6%), porém mediana de tratamento igual a zero: entre os que têm o indicador calculado, 54% não tratam nada do que coletam. Empresas privadas combinam cobertura de 76,1%, tratamento de 100% e o menor número de extravasamentos por quilômetro de rede (0,22).</p>
+  <div class="tab">
+    <table>
+      <caption>Tabela 4. Medianas por natureza jurídica do prestador (municípios com dado)</caption>
+      <thead><tr><th>Natureza jurídica</th><th>Municípios</th><th>População mediana</th><th>Rede coletora (%)</th><th>Tratado/coletado (%)</th><th>Extravasamentos por km</th></tr></thead>
+      <tbody>
+        <tr><td>Sociedade de economia mista</td><td>978</td><td>21.874</td><td>43,2</td><td>100,0</td><td>1,54</td></tr>
+        <tr><td>Empresa privada</td><td>597</td><td>18.836</td><td>76,1</td><td>100,0</td><td>0,22</td></tr>
+        <tr><td>Município (adm. direta)</td><td>587</td><td>7.452</td><td>75,6</td><td>0,0</td><td>0,91</td></tr>
+        <tr><td>Autarquia</td><td>316</td><td>35.142</td><td>80,1</td><td>95,0</td><td>1,81</td></tr>
+        <tr><td>Outras ou múltiplas</td><td>271</td><td>14.173</td><td>47,5</td><td>0,0</td><td>2,86</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure class="fig">
+    <img src="assets/fig4_natureza_juridica.png" alt="Dois painéis de boxplots por natureza jurídica: atendimento com rede e esgoto tratado sobre coletado." width="2100" height="880" loading="lazy">
+    <figcaption><b>Figura 4.</b> Atendimento com rede (esquerda) e esgoto tratado sobre coletado (direita), limitado a 100%, por natureza jurídica.</figcaption>
+  </figure>
+  <p>Essas diferenças não podem ser lidas como efeito do tipo de prestador, porque natureza jurídica, região e porte andam juntos. Ainda assim, a associação persiste quando olhamos só o Sudeste (H = 246, p &lt; 0,001), e o mapa de calor da Figura 5 mostra como cada combinação se comporta dentro da mesma região.</p>
+  <figure class="fig">
+    <iframe src="assets/fig5_natureza_x_macro.html" title="Mapa de calor interativo: natureza jurídica por macrorregião" height="440" loading="lazy"></iframe>
+    <figcaption><b>Figura 5 (interativa).</b> Mediana do atendimento com rede por natureza jurídica e macrorregião, com o número de municípios (n) em cada célula. <a href="assets/fig5_natureza_x_macro.html">Abrir em tela cheia</a>.</figcaption>
+  </figure>
+
+  <h3 id="rq3">3.3 RQ3 · Desempenho financeiro</h3>
+  <p>O desempenho financeiro (receita operacional total dividida pela despesa total, em %) tem correlação positiva moderada com o tratamento (ρ = 0,32) e fraca com a cobertura (ρ = 0,23). A despesa por m³ tem correlação negativa com a cobertura (ρ = −0,35), padrão compatível com custos unitários maiores em sistemas pequenos, hipótese que este estudo não testa. A receita e a despesa por m³ andam juntas (ρ = 0,70), e a evasão de receita quase não se relaciona com as demais variáveis (Figura 6).</p>
+  <figure class="fig">
+    <img src="assets/fig6_financeiro.png" alt="À esquerda, matriz de correlação de Spearman entre indicadores de cobertura, tratamento e finanças. À direita, barras por quartil de desempenho financeiro com a mediana de coleta e o percentual de municípios sem tratamento, que é alto no primeiro quartil." width="2200" height="920" loading="lazy">
+    <figcaption><b>Figura 6.</b> Correlação de Spearman (esquerda) e, por quartil de desempenho financeiro, mediana de coleta e porcentagem de municípios com tratamento igual a zero (direita).</figcaption>
+  </figure>
+  <p>A relação com a cobertura não é monotônica (Tabela 5): o segundo quartil tem a menor cobertura mediana (44,1%), e o pior desempenho financeiro (Q1) concentra municípios sem tratamento (60,7%). Esse primeiro quartil é composto sobretudo por serviços municipais de administração direta (60%) e por prestadores múltiplos ou de outras naturezas (25%), com receita mediana de R$ 0,50 por m³ contra cerca de R$ 4 nos demais quartis. Isso sugere que o baixo “desempenho financeiro” desses casos reflete, em grande parte, serviços com pouca ou nenhuma cobrança, e não ineficiência de gestão. O achado conecta RQ3 e RQ2: a variável financeira funciona, em parte, como um marcador do tipo de prestador.</p>
+  <div class="tab">
+    <table>
+      <caption>Tabela 5. Quartis do desempenho financeiro (receita/despesa, %) e resultados medianos</caption>
+      <thead><tr><th>Quartil</th><th>Municípios</th><th>Limite superior (%)</th><th>Mediana de coleta (%)</th><th>Municípios sem tratamento (%)</th></tr></thead>
+      <tbody>
+        <tr><td>Q1 (menor)</td><td>685</td><td>32,1</td><td>55,6</td><td>60,7</td></tr>
+        <tr><td>Q2</td><td>685</td><td>88,4</td><td>44,1</td><td>6,5</td></tr>
+        <tr><td>Q3</td><td>685</td><td>121,2</td><td>71,7</td><td>6,4</td></tr>
+        <tr><td>Q4 (maior)</td><td>685</td><td>1.942,4</td><td>75,2</td><td>12,2</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure class="fig">
+    <iframe src="assets/fig7_receita_cobertura.html" title="Gráfico de dispersão interativo: receita por metro cúbico e cobertura" height="540" loading="lazy"></iframe>
+    <figcaption><b>Figura 7 (interativa).</b> Receita operacional direta média (R$/m³, escala logarítmica) e atendimento com rede; cada ponto é um município e o tamanho indica a população. Mostra os percentis 1 a 99 da receita (n = 2.160), apenas para a visualização. <a href="assets/fig7_receita_cobertura.html">Abrir em tela cheia</a>.</figcaption>
+  </figure>
+</section>
+
+<section id="conclusao">
+  <h2>4. Conclusão</h2>
+  <p>Os dados do SINISA 2024 mostram três problemas distintos. O primeiro é de <strong>informação</strong>: 1.154 municípios, com 14,6 milhões de habitantes e concentrados nas faixas de menor porte, não têm dados de esgoto. O segundo é de <strong>cobertura</strong>: 62,3% da população tem rede, com um fosso entre o Sudeste (81,9%) e o Norte (24,7%), e só 16,9% dos municípios com dado alcançam 90%. O terceiro é de <strong>tratamento</strong>: a estimativa de coleta com tratamento é de 52,0%, e no Sudeste ela fica 17,5 pontos abaixo da coleta. A natureza jurídica e o desempenho financeiro estão associados a esses resultados, mas as duas variáveis se misturam com região, porte e política tarifária.</p>
+  <p><strong>Limitações.</strong> (i) Os dados são autodeclarados e a ausência de resposta não é aleatória; (ii) o SINISA consolida municípios com vários prestadores, o que pode ocultar diferenças internas; (iii) a cobertura efetiva de tratamento é uma aproximação, já que o indicador de tratamento é medido em volume e não em pessoas; (iv) os extremos financeiros não foram corrigidos; (v) o estudo cobre um único ano e as associações são descritivas, não causais.</p>
+  <p><strong>Trabalhos futuros.</strong> Incorporar as bases de estações de tratamento e de balanço patrimonial; comparar com séries históricas do SNIS; ajustar modelos multivariados com controles de região e porte; e construir mapas coropléticos com a malha municipal do IBGE.</p>
+</section>
+
+<section id="fair">
+  <h2>5. Disponibilidade dos dados e declaração FAIR</h2>
+  <p>O projeto segue os princípios FAIR (WILKINSON et al., 2016). Todo o código, os dados e este artigo estão no repositório público <a href="https://github.com/SEU-USUARIO/sinisa-esgoto-2024">github.com/SEU-USUARIO/sinisa-esgoto-2024</a>.</p>
+  <div class="tab">
+    <table>
+      <caption>Tabela 6. Aderência aos princípios FAIR</caption>
+      <thead><tr><th>Princípio</th><th style="text-align:left">Como é atendido</th></tr></thead>
+      <tbody>
+        <tr><td>Findable</td><td style="white-space:normal;text-align:left"><code>README.md</code> com resumo, palavras-chave e link para a fonte original; autoria, disciplina, instituição e semestre no cabeçalho.</td></tr>
+        <tr><td>Accessible</td><td style="white-space:normal;text-align:left">Repositório público e artigo no GitHub Pages; o pipeline roda sem credenciais e sem serviços pagos.</td></tr>
+        <tr><td>Interoperable</td><td style="white-space:normal;text-align:left"><code>data/data_dictionary.md</code> com todas as variáveis; dados tratados em Parquet e CSV comprimido (<code>.csv.gz</code>).</td></tr>
+        <tr><td>Reusable</td><td style="white-space:normal;text-align:left">Licença MIT (código) e CC-BY 4.0 (dados derivados e texto); <code>requirements.txt</code> com versões congeladas; testes e integração contínua.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Para reproduzir tudo a partir dos arquivos brutos:</p>
+<pre><code>git clone https://github.com/SEU-USUARIO/sinisa-esgoto-2024.git
+cd sinisa-esgoto-2024
+python -m venv .venv &amp;&amp; source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+python -m src.etl            # gera data/processed/, o log e o dicionário de dados
+pytest -q                    # valida o pipeline
+python -m src.run_notebook   # reexecuta a análise e regenera docs/assets/</code></pre>
+  <p class="nota">Os arquivos brutos em <code>data/raw/</code> são cópias sem alteração das planilhas do Ministério das Cidades; o hash SHA-256 de cada um fica registrado em <code>etl_log.json</code>.</p>
+</section>
+
+<section id="referencias">
+  <h2>6. Referências</h2>
+  <ul class="refs">
+    <li>BRASIL. Lei nº 11.445, de 5 de janeiro de 2007. Estabelece as diretrizes nacionais para o saneamento básico. Brasília, DF: Presidência da República, 2007. Disponível em: https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2007/lei/l11445.htm.</li>
+    <li>BRASIL. Lei nº 14.026, de 15 de julho de 2020. Atualiza o marco legal do saneamento básico. <em>Diário Oficial da União</em>, Brasília, DF, 16 jul. 2020. Disponível em: https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2020/lei/l14026.htm.</li>
+    <li>BRASIL. Ministério das Cidades. <em>Sistema Nacional de Informações em Saneamento Básico (SINISA)</em>: módulo Esgotamento Sanitário, bases municipal e UF/MR/BR, ano de referência 2024. Brasília, DF, 2025a (publicação em 18 dez. 2025). Disponível em: https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/saneamento/sinisa.</li>
+    <li>BRASIL. Ministério das Cidades. <em>Indicadores de esgoto por UF, macrorregião e Brasil (SINISA 2024)</em>. Brasília, DF, 2025b. Planilha em <code>data/raw/</code>.</li>
+    <li>BRASIL. Ministério das Cidades. <em>Glossário de informações: esgotamento sanitário 2024</em>. Brasília, DF, 2025c. Disponível em: https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/saneamento/sinisa/area-do-prestador/arquivos/GlossrioInformaes_ESGOTO_2024.pdf.</li>
+    <li>HUNTER, J. D. Matplotlib: a 2D graphics environment. <em>Computing in Science &amp; Engineering</em>, v. 9, n. 3, p. 90-95, 2007.</li>
+    <li>KRUSKAL, W. H.; WALLIS, W. A. Use of ranks in one-criterion variance analysis. <em>Journal of the American Statistical Association</em>, v. 47, n. 260, p. 583-621, 1952.</li>
+    <li>PANDAS DEVELOPMENT TEAM. <em>pandas documentation</em>. Disponível em: https://pandas.pydata.org/docs/.</li>
+    <li>PLOTLY TECHNOLOGIES. <em>Plotly Python Open Source Graphing Library</em>. Disponível em: https://plotly.com/python/.</li>
+    <li>SCIPY COMMUNITY. <em>scipy.stats.kruskal</em> e <em>scipy.stats.spearmanr</em>. Disponível em: https://docs.scipy.org/doc/scipy/reference/stats.html.</li>
+    <li>VIRTANEN, P. et al. SciPy 1.0: fundamental algorithms for scientific computing in Python. <em>Nature Methods</em>, v. 17, p. 261-272, 2020.</li>
+    <li>WILKINSON, M. D. et al. The FAIR Guiding Principles for scientific data management and stewardship. <em>Scientific Data</em>, v. 3, art. 160018, 2016. DOI: 10.1038/sdata.2016.18.</li>
+  </ul>
+</section>
+</main>
+</div>
+
+<footer>
+  Código sob licença MIT; dados derivados, figuras e texto sob CC-BY 4.0. Fonte dos dados: Ministério das Cidades, SINISA Esgoto 2024.
+  <a href="https://github.com/SEU-USUARIO/sinisa-esgoto-2024">Repositório no GitHub</a>.
+</footer>
+
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
+  var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+  var ids=Object.keys(map),els=ids.map(function(i){return document.getElementById(i)}).filter(Boolean);
+  if(!('IntersectionObserver' in window)||!els.length)return;
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){links.forEach(function(a){a.classList.remove('on')});map[e.target.id].classList.add('on')}
+  })},{rootMargin:'-15% 0px -70% 0px'});
+  els.forEach(function(el){io.observe(el)});
+  if(window.matchMedia('(max-width:999px)').matches){var d=document.querySelector('.toc details');if(d)d.removeAttribute('open')}
+})();
+</script>
+</body>
+</html>
